@@ -60,8 +60,16 @@ def build_pipeline(
         use_numeric = tuple(features)
         use_categorical: tuple[str, ...] = ()
     else:
-        use_numeric = tuple(numeric_features or _DEFAULT_NUMERIC_FEATURES)
-        use_categorical = tuple(categorical_features or _DEFAULT_CATEGORICAL_FEATURES)
+        use_numeric = (
+            tuple(numeric_features)
+            if numeric_features is not None
+            else tuple(_DEFAULT_NUMERIC_FEATURES)
+        )
+        use_categorical = (
+            tuple(categorical_features)
+            if categorical_features is not None
+            else tuple(_DEFAULT_CATEGORICAL_FEATURES)
+        )
 
     model_kwargs = dict(model_kwargs or {})
 

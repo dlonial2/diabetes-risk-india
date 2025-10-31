@@ -1,0 +1,236 @@
+{
+  "accuracy": 0.5108593012275732,
+  "precision": 0.5195246179966044,
+  "recall": 0.5656192236598891,
+  "f1": 0.5415929203539823,
+  "roc_auc": 0.505563128483646,
+  "confusion_matrix": [
+    [
+      235,
+      283
+    ],
+    [
+      235,
+      306
+    ]
+  ],
+  "n_train": 4233,
+  "n_valid": 1059,
+  "features": [
+    "Age",
+    "BMI",
+    "Cholesterol_Level",
+    "Fasting_Blood_Sugar",
+    "Postprandial_Blood_Sugar",
+    "HBA1C",
+    "Heart_Rate",
+    "Waist_Hip_Ratio",
+    "Glucose_Tolerance_Test_Result",
+    "Vitamin_D_Level",
+    "C_Protein_Level",
+    "Pregnancies",
+    "Gender",
+    "Family_History",
+    "Physical_Activity",
+    "Diet_Type",
+    "Smoking_Status",
+    "Alcohol_Intake",
+    "Stress_Level",
+    "Hypertension",
+    "Urban_Rural",
+    "Health_Insurance",
+    "Regular_Checkups",
+    "Medication_For_Chronic_Conditions",
+    "Polycystic_Ovary_Syndrome",
+    "Thyroid_Condition"
+  ],
+  "dataset": "india",
+  "model_type": "random_forest",
+  "random_state": 42,
+  "feature_importances": [
+    {
+      "feature": "numeric__Age",
+      "importance": 0.05883337318822407
+    },
+    {
+      "feature": "numeric__BMI",
+      "importance": 0.06321367233904183
+    },
+    {
+      "feature": "numeric__Cholesterol_Level",
+      "importance": 0.06740218878085331
+    },
+    {
+      "feature": "numeric__Fasting_Blood_Sugar",
+      "importance": 0.06615328971453537
+    },
+    {
+      "feature": "numeric__Postprandial_Blood_Sugar",
+      "importance": 0.06499389568891346
+    },
+    {
+      "feature": "numeric__HBA1C",
+      "importance": 0.06065190277597854
+    },
+    {
+      "feature": "numeric__Heart_Rate",
+      "importance": 0.05760669749964201
+    },
+    {
+      "feature": "numeric__Waist_Hip_Ratio",
+      "importance": 0.05684249082866922
+    },
+    {
+      "feature": "numeric__Glucose_Tolerance_Test_Result",
+      "importance": 0.06686369972118096
+    },
+    {
+      "feature": "numeric__Vitamin_D_Level",
+      "importance": 0.06443343228280138
+    },
+    {
+      "feature": "numeric__C_Protein_Level",
+      "importance": 0.0669245152041773
+    },
+    {
+      "feature": "numeric__Pregnancies",
+      "importance": 0.018660337478219602
+    },
+    {
+      "feature": "categorical__Gender_Female",
+      "importance": 0.006741184148863311
+    },
+    {
+      "feature": "categorical__Gender_Male",
+      "importance": 0.008201124749294696
+    },
+    {
+      "feature": "categorical__Gender_Other",
+      "importance": 0.008479229822217663
+    },
+    {
+      "feature": "categorical__Family_History_No",
+      "importance": 0.009173469913485444
+    },
+    {
+      "feature": "categorical__Family_History_Yes",
+      "importance": 0.00896632938009168
+    },
+    {
+      "feature": "categorical__Physical_Activity_High",
+      "importance": 0.00917423190519045
+    },
+    {
+      "feature": "categorical__Physical_Activity_Low",
+      "importance": 0.009096636809227154
+    },
+    {
+      "feature": "categorical__Physical_Activity_Medium",
+      "importance": 0.008871586717963268
+    },
+    {
+      "feature": "categorical__Diet_Type_Non-Vegetarian",
+      "importance": 0.009378019855124353
+    },
+    {
+      "feature": "categorical__Diet_Type_Vegan",
+      "importance": 0.009149919777676215
+    },
+    {
+      "feature": "categorical__Diet_Type_Vegetarian",
+      "importance": 0.009132334756694747
+    },
+    {
+      "feature": "categorical__Smoking_Status_Current",
+      "importance": 0.008796161091551045
+    },
+    {
+      "feature": "categorical__Smoking_Status_Former",
+      "importance": 0.008955565427967641
+    },
+    {
+      "feature": "categorical__Smoking_Status_Never",
+      "importance": 0.00958424583835515
+    },
+    {
+      "feature": "categorical__Alcohol_Intake_High",
+      "importance": 0.008632069687090722
+    },
+    {
+      "feature": "categorical__Alcohol_Intake_Moderate",
+      "importance": 0.008215256872641975
+    },
+    {
+      "feature": "categorical__Stress_Level_High",
+      "importance": 0.009165794860377462
+    },
+    {
+      "feature": "categorical__Stress_Level_Low",
+      "importance": 0.009332816122892608
+    },
+    {
+      "feature": "categorical__Stress_Level_Medium",
+      "importance": 0.01001186565991701
+    },
+    {
+      "feature": "categorical__Hypertension_No",
+      "importance": 0.00892714030783692
+    },
+    {
+      "feature": "categorical__Hypertension_Yes",
+      "importance": 0.008408284417147246
+    },
+    {
+      "feature": "categorical__Urban_Rural_Rural",
+      "importance": 0.008770161591735902
+    },
+    {
+      "feature": "categorical__Urban_Rural_Urban",
+      "importance": 0.009400690925843428
+    },
+    {
+      "feature": "categorical__Health_Insurance_No",
+      "importance": 0.008639446752562376
+    },
+    {
+      "feature": "categorical__Health_Insurance_Yes",
+      "importance": 0.008943469129869855
+    },
+    {
+      "feature": "categorical__Regular_Checkups_No",
+      "importance": 0.009178468531926054
+    },
+    {
+      "feature": "categorical__Regular_Checkups_Yes",
+      "importance": 0.009142166050609211
+    },
+    {
+      "feature": "categorical__Medication_For_Chronic_Conditions_No",
+      "importance": 0.008840241510578724
+    },
+    {
+      "feature": "categorical__Medication_For_Chronic_Conditions_Yes",
+      "importance": 0.008994519206892303
+    },
+    {
+      "feature": "categorical__Polycystic_Ovary_Syndrome_No",
+      "importance": 0.005456716944131923
+    },
+    {
+      "feature": "categorical__Polycystic_Ovary_Syndrome_Yes",
+      "importance": 0.00528708662460039
+    },
+    {
+      "feature": "categorical__Thyroid_Condition_No",
+      "importance": 0.009323896360074878
+    },
+    {
+      "feature": "categorical__Thyroid_Condition_Yes",
+      "importance": 0.009050372747331009
+    }
+  ],
+  "model_path": "models_india/diabetes_india_pipeline.joblib",
+  "metrics_path": "models_india/diabetes_india_metrics.json",
+  "roc_curve_path": "models_india/diabetes_india_roc_curve.png",
+  "confusion_matrix_path": "models_india/diabetes_india_confusion_matrix.png"
+}

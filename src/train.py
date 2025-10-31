@@ -20,47 +20,78 @@ from sklearn.model_selection import train_test_split
 
 from diabetes import build_pipeline, load_dataset
 
-TARGET_COLUMN = "Diabetes_Status"
-NUMERIC_FEATURES: Sequence[str] = (
-    "Age",
-    "BMI",
-    "Cholesterol_Level",
-    "Fasting_Blood_Sugar",
-    "Postprandial_Blood_Sugar",
-    "HBA1C",
-    "Heart_Rate",
-    "Waist_Hip_Ratio",
-    "Glucose_Tolerance_Test_Result",
-    "Vitamin_D_Level",
-    "C_Protein_Level",
-    "Pregnancies",
-)
-CATEGORICAL_FEATURES: Sequence[str] = (
-    "Gender",
-    "Family_History",
-    "Physical_Activity",
-    "Diet_Type",
-    "Smoking_Status",
-    "Alcohol_Intake",
-    "Stress_Level",
-    "Hypertension",
-    "Urban_Rural",
-    "Health_Insurance",
-    "Regular_Checkups",
-    "Medication_For_Chronic_Conditions",
-    "Polycystic_Ovary_Syndrome",
-    "Thyroid_Condition",
-)
-DEFAULT_FEATURES: Sequence[str] = NUMERIC_FEATURES + CATEGORICAL_FEATURES
+DATASET_CONFIGS = {
+    "india": {
+        "target": "Diabetes_Status",
+        "numeric_features": (
+            "Age",
+            "BMI",
+            "Cholesterol_Level",
+            "Fasting_Blood_Sugar",
+            "Postprandial_Blood_Sugar",
+            "HBA1C",
+            "Heart_Rate",
+            "Waist_Hip_Ratio",
+            "Glucose_Tolerance_Test_Result",
+            "Vitamin_D_Level",
+            "C_Protein_Level",
+            "Pregnancies",
+        ),
+        "categorical_features": (
+            "Gender",
+            "Family_History",
+            "Physical_Activity",
+            "Diet_Type",
+            "Smoking_Status",
+            "Alcohol_Intake",
+            "Stress_Level",
+            "Hypertension",
+            "Urban_Rural",
+            "Health_Insurance",
+            "Regular_Checkups",
+            "Medication_For_Chronic_Conditions",
+            "Polycystic_Ovary_Syndrome",
+            "Thyroid_Condition",
+        ),
+    },
+    "india_clinic": {
+        "target": "class",
+        "numeric_features": ("age",),
+        "categorical_features": (
+            "gender",
+            "polyuria",
+            "polydipsia",
+            "sudden_weight_loss",
+            "weakness",
+            "polyphagia",
+            "genital_thrush",
+            "visual_blurring",
+            "itching",
+            "irritability",
+            "delayed_healing",
+            "partial_paresis",
+            "muscle_stiffness",
+            "alopecia",
+            "obesity",
+        ),
+    },
+}
 
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Train a diabetes prediction model.")
     parser.add_argument(
+        "--dataset",
+        type=str,
+        choices=sorted(DATASET_CONFIGS.keys()),
+        default="india",
+        help="Dataset schema to use for training.",
+    )
+    parser.add_argument(
         "--data-path",
         type=Path,
         default=Path("data/diabetes.csv"),
-        help="Path to the diabetes dataset CSV (India cohort).",
+        help="Path to the diabetes dataset CSV.",
     )
     parser.add_argument(
         "--output-dir",
@@ -98,7 +129,7 @@ def parse_args() -> argparse.Namespace:
         "--c",
         type=float,
         default=1.0,
-        help="Inverse regularization strength used by logistic regression.",
+        help="Inverse regularisation strength used by logistic regression.",
     )
     parser.add_argument(
         "--max-iter",
@@ -148,24 +179,34 @@ def parse_args() -> argparse.Namespace:
 def main() -> None:
     args = parse_args()
 
-    expected_columns = set(DEFAULT_FEATURES) | {TARGET_COLUMN}
+    dataset_config = DATASET_CONFIGS[args.dataset]
+    target_column: str = dataset_config["target"]
+    configured_numeric: Sequence[str] = dataset_config["numeric_features"]
+    configured_categorical: Sequence[str] = dataset_config["categorical_features"]
+
+    expected_columns = set(configured_numeric) | set(configured_categorical) | {
+        target_column
+    }
     df = load_dataset(
         args.data_path,
+        dataset=args.dataset,
         expected_columns=expected_columns,
         download_if_missing=False,
         cache_download=False,
     )
 
-    if TARGET_COLUMN not in df.columns:
-        raise ValueError(f"Target column '{TARGET_COLUMN}' missing from dataset")
+    if target_column not in df.columns:
+        raise ValueError(f"Target column '{target_column}' missing from dataset")
 
-    numeric_features = tuple(col for col in NUMERIC_FEATURES if col in df.columns)
-    categorical_features = tuple(col for col in CATEGORICAL_FEATURES if col in df.columns)
+    numeric_features = tuple(col for col in configured_numeric if col in df.columns)
+    categorical_features = tuple(
+        col for col in configured_categorical if col in df.columns
+    )
 
     feature_columns = numeric_features + categorical_features
 
     X = df.loc[:, feature_columns]
-    y = df.loc[:, TARGET_COLUMN]
+    y = df.loc[:, target_column]
 
     X_train, X_valid, y_train, y_valid = train_test_split(
         X,
@@ -177,8 +218,9 @@ def main() -> None:
 
     if args.model == "logistic":
         model_type = "logistic_regression"
+        penalty = None if args.penalty == "none" else args.penalty
         model_kwargs = {
-            "penalty": args.penalty,
+            "penalty": penalty,
             "C": args.c,
             "max_iter": args.max_iter,
             "solver": "lbfgs",
@@ -215,6 +257,14 @@ def main() -> None:
     roc_auc = roc_auc_score(y_valid, y_proba)
     cm = confusion_matrix(y_valid, y_pred)
 
+    preprocessor = pipeline.named_steps["preprocessor"]
+    classifier = pipeline.named_steps["classifier"]
+
+    try:
+        feature_names_out = list(preprocessor.get_feature_names_out())
+    except AttributeError:
+        feature_names_out = list(resolved_features)
+
     metrics = {
         "accuracy": accuracy,
         "precision": precision,
@@ -225,9 +275,27 @@ def main() -> None:
         "n_train": int(len(X_train)),
         "n_valid": int(len(X_valid)),
         "features": list(resolved_features),
+        "dataset": args.dataset,
         "model_type": args.model,
         "random_state": args.random_state,
     }
+
+    if hasattr(classifier, "feature_importances_"):
+        importances = classifier.feature_importances_
+        names = feature_names_out
+        if len(names) != len(importances):
+            names = [f"feature_{idx}" for idx in range(len(importances))]
+        metrics["feature_importances"] = [
+            {"feature": str(feature), "importance": float(importance)}
+            for feature, importance in zip(names, importances)
+        ]
+    elif hasattr(classifier, "coef_"):
+        coef = classifier.coef_
+        if coef.ndim == 2 and coef.shape[1] == len(feature_names_out):
+            metrics["coefficients"] = [
+                {"feature": str(feature), "coefficient": float(weight)}
+                for feature, weight in zip(feature_names_out, coef[0])
+            ]
 
     args.output_dir.mkdir(parents=True, exist_ok=True)
 

@@ -1,0 +1,170 @@
+{
+  "accuracy": 0.9711538461538461,
+  "precision": 0.9841269841269841,
+  "recall": 0.96875,
+  "f1": 0.9763779527559056,
+  "roc_auc": 0.99921875,
+  "confusion_matrix": [
+    [
+      39,
+      1
+    ],
+    [
+      2,
+      62
+    ]
+  ],
+  "n_train": 416,
+  "n_valid": 104,
+  "features": [
+    "age",
+    "gender",
+    "polyuria",
+    "polydipsia",
+    "sudden_weight_loss",
+    "weakness",
+    "polyphagia",
+    "genital_thrush",
+    "visual_blurring",
+    "itching",
+    "irritability",
+    "delayed_healing",
+    "partial_paresis",
+    "muscle_stiffness",
+    "alopecia",
+    "obesity"
+  ],
+  "dataset": "india_clinic",
+  "model_type": "random_forest",
+  "random_state": 42,
+  "feature_importances": [
+    {
+      "feature": "numeric__age",
+      "importance": 0.03908825723566011
+    },
+    {
+      "feature": "categorical__gender_Female",
+      "importance": 0.056110829097379904
+    },
+    {
+      "feature": "categorical__gender_Male",
+      "importance": 0.05624927565167744
+    },
+    {
+      "feature": "categorical__polyuria_No",
+      "importance": 0.12195277194699229
+    },
+    {
+      "feature": "categorical__polyuria_Yes",
+      "importance": 0.11993108001564162
+    },
+    {
+      "feature": "categorical__polydipsia_No",
+      "importance": 0.1150959165743704
+    },
+    {
+      "feature": "categorical__polydipsia_Yes",
+      "importance": 0.1292829775321513
+    },
+    {
+      "feature": "categorical__sudden_weight_loss_No",
+      "importance": 0.029727824024129886
+    },
+    {
+      "feature": "categorical__sudden_weight_loss_Yes",
+      "importance": 0.03605114766289682
+    },
+    {
+      "feature": "categorical__weakness_No",
+      "importance": 0.006709338074004603
+    },
+    {
+      "feature": "categorical__weakness_Yes",
+      "importance": 0.008578639047735944
+    },
+    {
+      "feature": "categorical__polyphagia_No",
+      "importance": 0.015678544211202763
+    },
+    {
+      "feature": "categorical__polyphagia_Yes",
+      "importance": 0.014372511078039135
+    },
+    {
+      "feature": "categorical__genital_thrush_No",
+      "importance": 0.009650038787312656
+    },
+    {
+      "feature": "categorical__genital_thrush_Yes",
+      "importance": 0.00913304136922416
+    },
+    {
+      "feature": "categorical__visual_blurring_No",
+      "importance": 0.011843697125337177
+    },
+    {
+      "feature": "categorical__visual_blurring_Yes",
+      "importance": 0.010970908696089299
+    },
+    {
+      "feature": "categorical__itching_No",
+      "importance": 0.014233477168012655
+    },
+    {
+      "feature": "categorical__itching_Yes",
+      "importance": 0.014515299444064088
+    },
+    {
+      "feature": "categorical__irritability_No",
+      "importance": 0.015056716878760205
+    },
+    {
+      "feature": "categorical__irritability_Yes",
+      "importance": 0.01360459582687831
+    },
+    {
+      "feature": "categorical__delayed_healing_No",
+      "importance": 0.014457343050269121
+    },
+    {
+      "feature": "categorical__delayed_healing_Yes",
+      "importance": 0.015823833182910627
+    },
+    {
+      "feature": "categorical__partial_paresis_No",
+      "importance": 0.02620728927221904
+    },
+    {
+      "feature": "categorical__partial_paresis_Yes",
+      "importance": 0.02373936259063518
+    },
+    {
+      "feature": "categorical__muscle_stiffness_No",
+      "importance": 0.010014906117870554
+    },
+    {
+      "feature": "categorical__muscle_stiffness_Yes",
+      "importance": 0.009090564319398304
+    },
+    {
+      "feature": "categorical__alopecia_No",
+      "importance": 0.01894962127716084
+    },
+    {
+      "feature": "categorical__alopecia_Yes",
+      "importance": 0.01983300577385979
+    },
+    {
+      "feature": "categorical__obesity_No",
+      "importance": 0.0065710573195638475
+    },
+    {
+      "feature": "categorical__obesity_Yes",
+      "importance": 0.00747612964855197
+    }
+  ],
+  "model_path": "models_india_clinic/diabetes_india_clinic_pipeline.joblib",
+  "metrics_path": "models_india_clinic/diabetes_india_clinic_metrics.json",
+  "roc_curve_path": "models_india_clinic/diabetes_india_clinic_roc_curve.png",
+  "confusion_matrix_path": "models_india_clinic/diabetes_india_clinic_confusion_matrix.png"
+}

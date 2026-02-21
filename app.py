@@ -11,9 +11,17 @@ import joblib
 import pandas as pd
 import streamlit as st
 
-MODEL_PATH = Path("models_india_clinic/diabetes_india_clinic_pipeline.joblib")
-METRICS_PATH = Path("models_india_clinic/diabetes_india_clinic_metrics.json")
+import os
+from urllib.request import urlretrieve
 
+MODEL_URL = "https://huggingface.co/dlonial/diabetesmodel/resolve/main/diabetes_india_clinic_pipeline.joblib"
+MODEL_PATH = Path("diabetes_india_clinic_pipeline.joblib")
+
+# download model at startup if not present
+if not MODEL_PATH.exists():
+    urlretrieve(MODEL_URL, MODEL_PATH)
+
+METRICS_PATH = Path("diabetes_india_clinic_metrics.json")
 NUMERIC_FIELDS = [
     ("age", "Age", 45.0, 10.0, 100.0, 1.0),
 ]
@@ -41,9 +49,7 @@ CATEGORICAL_FIELDS = [
 def load_model(path: Path):
     try:
         if not path.exists():
-            st.error(
-                "Model artefact not found at %s. Run the training script first to produce it." % path
-            )
+            st.error("Model download failed or file missing." )
             return None
         model = joblib.load(path)
     except Exception as exc:  # pragma: no cover - Streamlit surface
